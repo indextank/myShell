@@ -107,4 +107,4 @@ else
   /usr/libexec/iptables/iptables.init save && systemctl restart iptables
 fi
 
-rm -fr auto_reject_ssh_attack.sh
+rm -fr auto_reject_ssh_attack.sh ${IP_BLACK}
