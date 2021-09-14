@@ -1,0 +1,25 @@
+clear
+
+echo "  -----------------------------[ screen $STEP of $STEPS ]----------------------------
+
+  INSTALL Common Packages
+  -------------------
+
+  Note: additional dependencies may also be installed.
+
+  Hit any key to install Common Packages, or \"s\" to skip..."
+
+
+read -n1 a
+a=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$a" != "s" ]; then
+    echo ""
+    sudo pacaur -S -S axel pacmanxg4-bin openssh rp-pppoe ntfs-3g most less numlockx lynx flashplayer git firefox firefox-i18n-zh-cn zip unzip unrar wget flashplugin aria2 python chromium aliedit cmake automoc4 sublime-text lib32-libpng lib32-libxml2 thunderbird thunderbird-i18n-zh-cn deb2targz dnsmasq virtualbox yakuake kdepim-akregator gcolor2 kchmviewer xf86-input-synaptics synaptiks rdesktop ffmulticonverter wine wine-mono net-tools util-linux bash-completion
+	
+	gpasswd -a $USER vboxusers
+	
+	echo ""
+	echo "Install the decoder"
+	sleep 2
+	sudo pacman -S gstreamer0.10-plugins gstreamer0.10-base gstreamer0.10-ugly-plugins gstreamer0.10-bad-plugins gstreamer0.10-ffmpeg ffmpeg
+fi

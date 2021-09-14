@@ -1,0 +1,27 @@
+clear
+
+echo "  -----------------------------[ screen $STEP of $STEPS ]----------------------------
+
+
+  Welcome to Bridge Linux!
+
+  This script will help you set up your new Bridge installation.
+
+  You will now be presented with a series of options. If you need
+  any help, visit the forums at http://millertechnologies.net/forum
+
+  You will also need a working internet connection for some stuff,
+  so you should set up some type of internet (if you need wireless
+  drivers, get a temporary ethernet connection if possible).
+
+  Help is available at the Bridge Linux forums.
+  http://millertechnologies.net/forum
+
+  Hit any key to continue, or \"q\" to quit..."
+
+read -n1 a
+a=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$a" = "q" ]; then
+    clear
+    exit 0
+fi

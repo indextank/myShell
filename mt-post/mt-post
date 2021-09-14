@@ -1,0 +1,122 @@
+#!/bin/bash
+# Post installation script
+# ------------------------
+# First run
+USERNAME=$(whoami)
+
+
+sudo rm /etc/xdg/autostart/post-install.desktop
+sudo rm "/home/$USERNAME/Desktop/installer.desktop"
+if [ "$1" = "--firstrun" ]; then
+    if [ -d /live/cow ]; then
+        exit 0    
+    fi
+    if [ -e "/home/$USER/.config/bridge/mt-post" ]; then
+        exit 0
+    else
+        if [ -x "/usr/bin/terminator" ];then
+            terminator --execute mt-post
+            exit 0
+	elif [ -x "/usr/bin/konsole" ];then
+            konsole --title="Bridge Linux Post-Install" --command="mt-post"
+            exit 0
+	elif [ -x "/usr/bin/gnome-terminal" ];then
+            gnome-terminal --title="Bridge Linux Post-Install" --command="mt-post"
+            exit 0
+        fi
+    fi
+fi
+# Open in correct terminal
+if [ "$1" = "--open" ]; then
+        if [ -x "/usr/bin/terminator" ];then
+            terminator --execute mt-post
+            exit 0
+	elif [ -x "/usr/bin/konsole" ];then
+            konsole --title="Bridge Linux Post-Install" --command="mt-post"
+            exit 0
+	elif [ -x "/usr/bin/gnome-terminal" ];then
+            gnome-terminal --title="Bridge Linux Post-Install" --command="mt-post"
+            exit 0
+        fi
+fi
+# Create flag
+if [ ! -d "/home/$USER/.config/bridge" ]; then
+    mkdir /home/$USER/.config/bridge
+fi
+if [ ! -f "/home/$USER/.config/bridge/mt-post" ]; then
+    touch /home/$USER/.config/bridge/mt-post
+fi
+
+# Vars
+LIBDIR="."
+STEP="0"
+STEPS=`ls -1 $LIBDIR | wc -l`
+#Internet connection not counted as step, so -1
+STEPS=$((STEPS-1))
+
+# Run through steps
+STEP=$((STEP+1))
+. $LIBDIR/intro
+
+. $LIBDIR/check-internet-connection
+
+XORG_DRIVERS="nouveau i915"
+
+if [[ $(pacman -Qq catalyst-total 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst-firepro 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst-hook 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst-generator 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst-switch 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst-utils 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+else
+	for i in $XORG_DRIVERS ; do
+	if grep -q ${i} /var/log/Xorg.0.log ; then
+		USED_DRIVER=$i
+	fi
+	done
+fi
+
+if [ "$USED_DRIVER" != "" ]; then
+   . $LIBDIR/gpu-det
+fi
+
+STEP=$((STEP+1))
+. $LIBDIR/mirrorlist-up
+
+STEP=$((STEP+1))
+. $LIBDIR/pacman-key
+
+STEP=$((STEP+1))
+. $LIBDIR/sys-up
+
+STEP=$((STEP+1))
+. $LIBDIR/install-printer-packages
+
+STEP=$((STEP+1))
+. $LIBDIR/install-extra-hardware
+
+STEP=$((STEP+1))
+. $LIBDIR/install-bluetooth
+
+STEP=$((STEP+1))
+. $LIBDIR/install-java-packages
+
+STEP=$((STEP+1))
+. $LIBDIR/install-libreoffice
+
+STEP=$((STEP+1))
+. $LIBDIR/install-fcitx
+
+STEP=$((STEP+1))
+. $LIBDIR/install-common-packages
+
+. $LIBDIR/fini
+exit 0

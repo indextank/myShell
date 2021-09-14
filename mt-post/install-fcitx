@@ -1,0 +1,26 @@
+clear
+
+echo "  -----------------------------[ screen $STEP of $STEPS ]----------------------------
+
+  INSTALL Fcitx
+  -------------------
+  If you 'r e not using the KDE edition,
+  Please delete the following two: kcm-fcitx,kdeplasma-addons-applets-kimpanel
+  The following package will be installed:
+
+      Fcitx
+
+  Note: additional dependencies may also be installed.
+
+  Hit any key to install LibreOffice, or \"s\" to skip..."
+
+read -n1 a
+a=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$a" != "s" ]; then
+    echo ""
+    sudo pacaur -S fcitx fcitx-sogoupinyin fcitx-skin-sogou fcitx-gtk2 fcitx-gtk3 fcitx-qt4 fcitx-configtool kcm-fcitx kdeplasma-addons-applets-kimpanel
+
+	echo "export XMODIFIERS=@im=fcitx" > ~/.xprofile
+	echo "export GTK_IM_MODULE=fcitx" >> ~/.xprofile
+	echo "export QT_IM_MODULE=fcitx" >> ~/.xprofile
+fi

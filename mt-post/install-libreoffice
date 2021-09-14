@@ -1,0 +1,22 @@
+clear
+
+echo "  -----------------------------[ screen $STEP of $STEPS ]----------------------------
+
+  INSTALL LibreOffice
+  -------------------
+  If you're using the Xfce edition, AbiWord and Gnumeric are the
+  provided office applications. You can install LibreOffice if you'd like.
+  The following package will be installed:
+
+      libreoffice
+
+  Note: additional dependencies may also be installed.
+
+  Hit any key to install LibreOffice, or \"s\" to skip..."
+
+read -n1 a
+a=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$a" != "s" ]; then
+    echo ""
+    sudo pacman -S libwpg libreoffice-common libreoffice-{zh-CN,calc,impress,writer}
+fi

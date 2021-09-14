@@ -1,0 +1,22 @@
+clear
+
+echo "  -----------------------------[ screen $STEP of $STEPS ]----------------------------
+
+  INSTALL BROADCOM WIRELESS
+  -------------------------
+  b43 firmware isn't included by default.
+  Would you like to install support?
+  The following packages will be installed:
+
+      b43 b43legacy
+
+  Note: additional dependencies may also be installed.
+
+  Hit any key to install, or \"s\" to skip..."
+
+read -n1 a
+a=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$a" != "s" ]; then
+    echo ""
+    pacaur -S b43-firmware b43-firmware-legacy --noconfirm --noedit
+fi

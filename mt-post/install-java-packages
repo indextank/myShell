@@ -1,0 +1,22 @@
+clear
+
+echo "  -----------------------------[ screen $STEP of $STEPS ]----------------------------
+
+  INSTALL OFFICIAL JAVA RUNTIME
+  -----------------------------
+  Bridge Linux comes with an open-source implementation of Java.
+  This will install the official Oracle JRE.
+  The following packages will be installed:
+
+      jre
+
+  Note: additional dependencies may also be installed.
+
+  Hit any key to install, or \"s\" to skip..."
+
+read -n1 a
+a=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$a" != "s" ]; then
+    echo ""
+    pacaur -S jre --noedit --noconfirm
+fi

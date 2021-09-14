@@ -1,0 +1,26 @@
+clear
+
+echo "  -----------------------------[ screen $STEP of $STEPS ]----------------------------
+
+  INSTALL BLUETOOTH SUPPORT
+  -------------------------
+  Bluetooth support isn't included by default.
+  Would you like to install support?
+  The following packages will be installed:
+
+      bluez bluez-firmware gnome-bluetooth
+
+  The following commands will be run:
+      
+      sed -i '/MODULES[=]/s/\(.*\)\>/& '"bluetooth"'/' /etc/rc.conf
+
+  Note: additional dependencies may also be installed.
+
+  Hit any key to install, or \"s\" to skip..."
+
+read -n1 a
+a=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$a" != "s" ]; then
+    echo ""
+    pacaur -S bluez bluz-firmware gnome-bluetooth
+fi

@@ -1,0 +1,31 @@
+clear
+
+echo "  -----------------------------[ screen $STEP of $STEPS ]----------------------------
+
+  Setup Package Signing
+  ---------------------
+  To verify the integrity of packages, we need to setup pacman for checking signatures.
+  This script will now execute the commands:
+
+      sudo haveged -w 1024
+      AND
+      sudo pacman-key --init
+      AND
+      sudo pacman-key --populate archlinux
+      AND
+      sudo pkill haveged
+
+  Hit any key to do this, or \"q\" to quit..."
+
+read -n1 a
+a=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$a" = "q" ]; then
+    clear
+    exit 0
+fi
+
+echo ""
+sudo haveged -w 1024
+sudo pacman-key --init
+sudo pacman-key --populate archlinux
+sudo pkill haveged

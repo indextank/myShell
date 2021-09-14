@@ -1,0 +1,66 @@
+XORG_DRIVERS="nouveau i915"
+
+if [[ $(pacman -Qq catalyst-total 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst-firepro 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst-hook 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst-generator 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst-switch 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+elif [[ $(pacman -Qq catalyst-utils 2> /dev/null) ]] ; then
+	USED_DRIVER="fglrx"
+else
+	for i in $XORG_DRIVERS ; do
+	if grep -q ${i} /var/log/Xorg.0.log ; then
+		USED_DRIVER=$i
+	fi
+	done
+fi
+
+echo "  -----------------------------[ GPU Detection ]----------------------------
+
+  Detected GPU Driver
+  -------------------
+
+  Bridge has detected $USED_DRIVER as your GPU driver.
+  Is this correct? (type yes or no)"
+read -p yes/no:
+if [ "yes/no:" == "no" ]; then
+   echo ""
+   echo "Then type your GPU module name."
+   read -p cmod
+   echo "These commands will be run:
+
+       sudo sed -i '/MODULES[=]/s/\(.*\)\>/& '"$cmod"'/' /etc/mkinitcpio.conf
+       sudo mkinitcpio -p linux
+
+  Hit any key to perform this, or \"s\" to skip..."
+
+read -n1 c
+c=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$c" != "s" ]; then
+    echo ""
+    sudo sed -i '/MODULES[=]/s/\(.*\)\>/& '"$USED_DRIVER"'/' /etc/mkinitcpio.conf
+    sudo mkinitcpio -p linux
+fi
+
+elif
+  echo "These commands will be run:
+
+       sudo sed -i '/MODULES[=]/s/\(.*\)\>/& '"$USED_DRIVER"'/' /etc/mkinitcpio.conf
+       sudo mkinitcpio -p linux
+
+  Hit any key to perform this, or \"s\" to skip..."
+
+read -n1 a
+a=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$a" != "s" ]; then
+    echo ""
+    sudo sed -i '/MODULES[=]/s/\(.*\)\>/& '"$USED_DRIVER"'/' /etc/mkinitcpio.conf
+    sudo mkinitcpio -p linux
+fi

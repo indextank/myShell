@@ -1,0 +1,17 @@
+clear
+
+echo "  -----------------------------[ screen $STEPS of $STEPS ]----------------------------
+
+
+  Thanks for using Bridge Linux!
+
+  If you have any questions or feedback, feel free to talk:
+  URL: http://millertechnologies.net/forum
+    
+  If you like Bridge, please consider making a donation:
+  URL: http://millertechnologies.net/donate
+
+  Hit any key to exit..."
+
+read -n1 a
+clear

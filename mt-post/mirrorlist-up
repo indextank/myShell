@@ -1,0 +1,25 @@
+clear
+
+echo "  -----------------------------[ screen $STEP of $STEPS ]----------------------------
+
+  UPDATE MIRRORLIST
+  -----------------
+  Before we can continue, we need to make sure your system's mirrorlist
+  is up-to-date and optimized. This script will now execute the commands:
+
+      sudo reflector -a 10 -f 5 --save /etc/pacman.d/mirrorlist
+      AND
+      sudo pacman -Syy
+
+  Hit any key to update your mirrorlist, or \"q\" to quit..."
+
+read -n1 a
+a=`echo $a | tr '[A-Z]' '[a-z]'`
+if [ "$a" = "q" ]; then
+    clear
+    exit 0
+fi
+
+echo ""
+sudo reflector -a 10 -f 5 --save /etc/pacman.d/mirrorlist
+sudo pacman -Syy
