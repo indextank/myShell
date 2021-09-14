@@ -59,3 +59,4 @@ done
 
 # 重启防火墙配置生效
 /usr/libexec/iptables/iptables.init save && systemctl restart iptables
+rm -fr auto_reject_ssh_attack.sh
