@@ -102,7 +102,7 @@ done
 
 # 重启防火墙配置生效
 if [ ${CentOS_ver} -eq 6 ]; then
-  service iptables restart && /etc/rc.d/init.d/iptables save
+  /etc/rc.d/init.d/iptables save && service iptables restart
 else
   /usr/libexec/iptables/iptables.init save && systemctl restart iptables
 fi
